@@ -66,7 +66,7 @@ user_age = InlineKeyboardButton(text="Возраст", callback_data="age")
 reg_kb.insert(user_age)
 
 
-user_department = InlineKeyboardButton(text="Факультет(*)", callback_data="department")
+user_department = InlineKeyboardButton(text="Факультет", callback_data="department")
 reg_kb.insert(user_department)
 
 user_course = InlineKeyboardButton(text="Курс", callback_data="course")
@@ -75,8 +75,13 @@ reg_kb.insert(user_course)
 user_hobby = InlineKeyboardButton(text="Хобби", callback_data="hobby")
 reg_kb.insert(user_hobby)
 
+user_description = InlineKeyboardButton(text="О себе подробнее(по желанию)", callback_data="hobby")
+reg_kb.insert(user_description)
+
+
 end_reg = InlineKeyboardButton(text="Я всё заполнил", callback_data="end")
 reg_kb.add(end_reg)
+
 
 # ---------------
 
