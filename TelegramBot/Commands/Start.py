@@ -34,8 +34,15 @@ async def start(message: types.Message, state: FSMContext):
 
 
 @dp.callback_query_handler(lambda c: c.data == 'button1', state='*')
-async def choosing_action(callback_query: types.CallbackQuery):
+async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     await bot.answer_callback_query(callback_query.id)
+    async with state.proxy() as data:
+        data['name'] = ''
+        data['age'] = ''
+        data['department'] = ''
+        data['course'] = ''
+        data['hobby'] = ''
+        data['description'] = ''
     await callback_query.message.edit_text(
         'Поехали!',
         reply_markup=reg_kb
@@ -102,9 +109,21 @@ async def choosing_action(callback_query: types.CallbackQuery):
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     TelegramUserService.ChangeTelegramUsers(callback_query.id)
     await FSMUser.click_end.set()
+    await callback_query.message.edit_text(
+        'Приступаем)',
+        reply_markup=done_kb
+    )
+
+# done
+@dp.callback_query_handler(lambda c: c.data == 'done_btn', state='*')
+async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
+    TelegramUserService.ChangeTelegramUsers(callback_query.id)
+    await FSMUser.click_done.set()
+    # await callback_query.
 
 
 # -------------
+
 
 @dp.message_handler(state=FSMUser.typing_name)
 async def choosing_name(message: types.Message, state: FSMContext):
@@ -113,7 +132,7 @@ async def choosing_name(message: types.Message, state: FSMContext):
         data['name'] = name
     await bot.send_message(
         message.from_user.id,
-        f"Имя {name} записано",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -125,7 +144,7 @@ async def choosing_age(message: types.Message, state: FSMContext):
         data['age'] = age
     await bot.send_message(
         message.from_user.id,
-        f"{age} - возраст записан",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -137,7 +156,7 @@ async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
         data['department'] = department
     await bot.send_message(
         call.from_user.id,
-        f"Факультет {department} записан",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -149,7 +168,7 @@ async def choosing_course(call: types.CallbackQuery, state: FSMContext):
         data['course'] = course
     await bot.send_message(
         call.from_user.id,
-        f"{course} курс",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -161,7 +180,7 @@ async def choosing_hobby(message: types.Message, state: FSMContext):
         data['hobby'] = hobby.split(',')
     await bot.send_message(
         message.from_user.id,
-        f"Прекрасное хобби",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -173,7 +192,6 @@ async def choosing_description(message: types.Message, state: FSMContext):
         data['description'] = description
     await bot.send_message(
         message.from_user.id,
-        f"Ты невероятен!",
+        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
-

@@ -75,7 +75,7 @@ reg_kb.insert(user_course)
 user_hobby = InlineKeyboardButton(text="Хобби", callback_data="hobby")
 reg_kb.insert(user_hobby)
 
-user_description = InlineKeyboardButton(text="О себе подробнее(по желанию)", callback_data="hobby")
+user_description = InlineKeyboardButton(text="О себе подробнее(по желанию)", callback_data="description")
 reg_kb.insert(user_description)
 
 
@@ -96,3 +96,9 @@ course_kb = InlineKeyboardMarkup(row_width=4)
 
 for cr in course_list:
     course_kb.insert(InlineKeyboardButton(text=cr, callback_data=cr))
+
+
+done_kb = InlineKeyboardMarkup(row_width=1)
+
+done_btn = InlineKeyboardButton(text="Готово! Давай найдем тебе собеседника", callback_data="button2")
+done_kb.insert(done_btn)

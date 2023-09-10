@@ -11,4 +11,6 @@ class FSMUser(StatesGroup):
     typing_hobby = State()
     typing_description = State()
     click_end = State()
+    click_reg = State()
+    click_done = State()
 
