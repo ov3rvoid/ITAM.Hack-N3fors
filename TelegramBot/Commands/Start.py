@@ -19,8 +19,6 @@ async def start(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=['start'], state='*')
 async def start(message: types.Message, state: FSMContext):
-    print(message.from_user.id, message.from_user.username,
-        message.from_user.first_name, message.from_user.last_name)
     _state = await state.get_state()
     if _state == 'None':
         await state.set_data({})
@@ -38,10 +36,10 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
     await bot.answer_callback_query(callback_query.id)
     async with state.proxy() as data:
         data['name'] = ''
-        data['age'] = ''
+        data['age'] = 0
         data['department'] = ''
-        data['course'] = ''
-        data['hobby'] = ''
+        data['course'] = 0
+        data['gender'] = ''
         data['description'] = ''
     await callback_query.message.edit_text(
         'Поехали!',
@@ -56,6 +54,16 @@ async def choosing_action(callback_query: types.CallbackQuery):
         'Как тебя зовут?✏️'
     )
     await FSMUser.typing_name.set()
+
+
+@dp.callback_query_handler(lambda c: c.data == 'gender', state='*')
+async def choosing_action(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    await callback_query.message.edit_text(
+        'Какого ты пола?',
+        reply_markup=gender_kb
+    )
+    await FSMUser.typing_gender.set()
 
 
 @dp.callback_query_handler(lambda c: c.data == 'age', state='*')
@@ -133,7 +141,7 @@ async def choosing_name(message: types.Message, state: FSMContext):
         data['name'] = name
     await bot.send_message(
         message.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -145,7 +153,7 @@ async def choosing_age(message: types.Message, state: FSMContext):
         data['age'] = age
     await bot.send_message(
         message.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -157,7 +165,19 @@ async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
         data['department'] = department
     await bot.send_message(
         call.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
+        reply_markup=reg_kb
+    )
+
+
+@dp.callback_query_handler(state=FSMUser.typing_gender)
+async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
+    gender = call.data
+    async with state.proxy() as data:
+        data['gender'] = gender
+    await bot.send_message(
+        call.from_user.id,
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -169,7 +189,7 @@ async def choosing_course(call: types.CallbackQuery, state: FSMContext):
         data['course'] = course
     await bot.send_message(
         call.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -181,7 +201,7 @@ async def choosing_hobby(message: types.Message, state: FSMContext):
         data['hobby'] = hobby.split(',')
     await bot.send_message(
         message.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
 
@@ -193,6 +213,6 @@ async def choosing_description(message: types.Message, state: FSMContext):
         data['description'] = description
     await bot.send_message(
         message.from_user.id,
-        f"Имя - {data['name']}\nВозраст - {data['age']}\nФакультет - {data['department']}, {data['course']} курс\nХобби - {data['hobby']}\nО себе: {data['description']}",
+        f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )

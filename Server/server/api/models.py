@@ -6,6 +6,7 @@ class TelegramUser(models.Model):
     first_name = models.CharField(max_length=256, null=True, verbose_name='Имя в тг')
     second_name = models.CharField(max_length=256, null=True, verbose_name='Фамилия в тг')
     age = models.IntegerField(default=18)
+    gender = models.IntegerField(default=0)
     department = models.TextField(null=True, blank=True)
     course = models.IntegerField(default=1)
     description = models.TextField(blank=True)

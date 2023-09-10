@@ -8,7 +8,6 @@ class TelegramUserService:
             "external_id": external_id,
             "username": username,
             "first_name": first_name,
-            "second_name": second_name,
             "age": 18,
             "course": 1,
             "description": "",
@@ -32,6 +31,7 @@ class TelegramUserService:
             "age": int(data['age']),
             "course": int(data['course']),
             "description": data['description'],
+            "gender": int(data['gender']),
             "photo": None,
             "department": data['department']
         }), headers={

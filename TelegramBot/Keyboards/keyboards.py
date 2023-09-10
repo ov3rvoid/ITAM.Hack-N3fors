@@ -61,6 +61,8 @@ reg_kb = InlineKeyboardMarkup(row_width=2)
 user_name = InlineKeyboardButton(text="Имя", callback_data='name')
 reg_kb.insert(user_name)
 
+user_gender = InlineKeyboardButton(text="Пол", callback_data='gender')
+reg_kb.insert(user_gender)
 
 user_age = InlineKeyboardButton(text="Возраст", callback_data="age")
 reg_kb.insert(user_age)
@@ -72,8 +74,6 @@ reg_kb.insert(user_department)
 user_course = InlineKeyboardButton(text="Курс", callback_data="course")
 reg_kb.insert(user_course)
 
-user_hobby = InlineKeyboardButton(text="Хобби", callback_data="hobby")
-reg_kb.insert(user_hobby)
 
 user_description = InlineKeyboardButton(text="О себе подробнее(по желанию)", callback_data="description")
 reg_kb.insert(user_description)
@@ -102,3 +102,13 @@ done_kb = InlineKeyboardMarkup(row_width=1)
 
 done_btn = InlineKeyboardButton(text="Готово! Давай найдем тебе собеседника", callback_data="button2")
 done_kb.insert(done_btn)
+
+# -------------
+
+gender_kb = InlineKeyboardMarkup(row_width=2)
+
+man_btn = InlineKeyboardButton(text='М', callback_data="0")
+gender_kb.insert(man_btn)
+
+woman_btn = InlineKeyboardButton(text='Ж', callback_data="1")
+gender_kb.insert(woman_btn)

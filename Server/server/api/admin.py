@@ -12,6 +12,7 @@ class UserAdmin(admin.ModelAdmin):
         'department',
         'course',
         'description',
+        'gender',
         'photo'
     )
     list_per_page = 50
