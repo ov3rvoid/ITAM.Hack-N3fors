@@ -23,7 +23,7 @@ async def start(message: types.Message, state: FSMContext):
     if _state == 'None':
         await state.set_data({})
     TelegramUserService.CreateTelegramUser(message.from_user.id, message.from_user.username,
-                                        message.from_user.first_name, message.from_user.last_name)
+                                           message.from_user.first_name, message.from_user.last_name)
     await bot.send_message(
         message.from_user.id,
         "Привет, давай приступим к знакомству!",
@@ -116,20 +116,24 @@ async def choosing_action(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data == 'end', state='*')
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
-        TelegramUserService.ChangeTelegramUsers(callback_query.from_user.id, data)
-    await FSMUser.click_end.set()
-    similar_user = TelegramUserService.GetSimilarTgUser(callback_query.from_user.id)
-    print(similar_user)
-
+        TelegramUserService.ChangeTelegramUsers(
+            callback_query.from_user.id, data)
     await callback_query.message.edit_text(
         'Приступаем)',
         reply_markup=done_kb
     )
+    await FSMUser.click_end.set()
 
 # done
+
+
 @dp.callback_query_handler(lambda c: c.data == 'button2', state='*')
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     TelegramUserService.FindSimilarityUser(callback_query.from_user.id)
+    data = TelegramUserService.GetSimilarTgUser(callback_query.from_user.id)
+    await callback_query.message.edit_text(
+        f"Имя - {data.get('first_name')}\n@{data.get('username')}\nПол - {'МЖ'[int(data.get('gender'))] if data.get('gender') != '' else ''}\nВозраст - {data.get('age') if int(data.get('age')) > 0 else ''}\nФакультет - {data.get('department')}\n{data.get('course') if data.get('course') != 0 else '?'} курс\nО себе: {data.get('description')}"
+    )
     await FSMUser.click_done.set()
 
 # -------------
