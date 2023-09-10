@@ -124,9 +124,9 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
     )
 
 # done
-@dp.callback_query_handler(lambda c: c.data == 'done_btn', state='*')
+@dp.callback_query_handler(lambda c: c.data == 'button2', state='*')
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
-    TelegramUserService.ChangeTelegramUsers(callback_query.id)
+    TelegramUserService.FindSimilarityUser(callback_query.from_user.id)
     await FSMUser.click_done.set()
     # await callback_query.
 

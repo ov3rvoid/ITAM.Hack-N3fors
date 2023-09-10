@@ -22,6 +22,9 @@ class TelegramUserService:
     def DeleteTelegramUser(external_id):
         data = requests.get(PROXY+'get_telegram_user/'+str(external_id),).json()
 
+    def FindSimilarityUser(external_id):
+        requests.post(PROXY+'find_similarity_user/'+str(external_id)).json()
+
     def ChangeTelegramUsers(external_id, data):
         data = data.as_dict()
         data['external_id'] = external_id
