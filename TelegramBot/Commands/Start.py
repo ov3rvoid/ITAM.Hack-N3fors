@@ -118,6 +118,9 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
     async with state.proxy() as data:
         TelegramUserService.ChangeTelegramUsers(callback_query.from_user.id, data)
     await FSMUser.click_end.set()
+    similar_user = TelegramUserService.GetSimilarTgUser(callback_query.from_user.id)
+    print(similar_user)
+
     await callback_query.message.edit_text(
         'Приступаем)',
         reply_markup=done_kb
@@ -128,8 +131,6 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     TelegramUserService.FindSimilarityUser(callback_query.from_user.id)
     await FSMUser.click_done.set()
-    # await callback_query.
-
 
 # -------------
 

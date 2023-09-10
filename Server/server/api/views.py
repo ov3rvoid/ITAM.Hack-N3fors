@@ -1,7 +1,8 @@
 from .serializers import *
 from rest_framework import generics
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
+from random import choice
 class TelegramUserBaseModel:
     serializer_class = TelegramUserSerializer
     queryset = TelegramUser.objects.all()
@@ -14,10 +15,14 @@ class CreateTelegramUser(TelegramUserBaseModel, generics.CreateAPIView):
 class ChangeTelegramUser(TelegramUserBaseModel, generics.RetrieveUpdateAPIView):
     lookup_field='external_id'
     
-class FindSimUser(TelegramUserBaseModel, generics.ListAPIView):
+class FindSimUser(APIView):
+    serializer_class = TelegramUserSerializer
+    queryset = TelegramUser.objects.all()
     def get(self, request, *args, **kwargs):
-        external_id = kwargs.get('external_id')
-        return Response(self.serializer_class(TelegramUser.objects.all()).data)
+        id = kwargs.get('external_id')
+        users  = TelegramUser.objects.all().exclude(external_id=id)
+
+        return Response(TelegramUserSerializer(choice(users)).data)
     
 class GetTelegramUser(TelegramUserBaseModel, generics.RetrieveAPIView):
     lookup_field='external_id'

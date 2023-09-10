@@ -40,3 +40,6 @@ class TelegramUserService:
         }), headers={
             "Content-type": "application/json",
         },)
+
+    def GetSimilarTgUser(external_id):
+        return requests.get(f'{PROXY}find_similarity_user/{external_id}').json()
