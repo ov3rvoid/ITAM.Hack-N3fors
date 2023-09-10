@@ -8,7 +8,7 @@ class TelegramUserBaseModel:
 
 # Create your views here.
 class CreateTelegramUser(TelegramUserBaseModel, generics.CreateAPIView):
-    ...
+    lookup_field='external_id'
 
 class ChangeTelegramUser(TelegramUserBaseModel, generics.RetrieveUpdateAPIView):
     lookup_field='external_id'

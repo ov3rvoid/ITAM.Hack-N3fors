@@ -20,12 +20,12 @@ async def start(message: types.Message, state: FSMContext):
 @dp.message_handler(commands=['start'], state='*')
 async def start(message: types.Message, state: FSMContext):
     print(message.from_user.id, message.from_user.username,
-          message.from_user.first_name, message.from_user.last_name)
+        message.from_user.first_name, message.from_user.last_name)
     _state = await state.get_state()
     if _state == 'None':
         await state.set_data({})
     TelegramUserService.CreateTelegramUser(message.from_user.id, message.from_user.username,
-                                           message.from_user.first_name, message.from_user.last_name)
+                                        message.from_user.first_name, message.from_user.last_name)
     await bot.send_message(
         message.from_user.id,
         "Привет, давай приступим к знакомству!",
@@ -107,7 +107,8 @@ async def choosing_action(callback_query: types.CallbackQuery):
 
 @dp.callback_query_handler(lambda c: c.data == 'end', state='*')
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
-    TelegramUserService.ChangeTelegramUsers(callback_query.id)
+    async with state.proxy() as data:
+        TelegramUserService.ChangeTelegramUsers(callback_query.from_user.id, data)
     await FSMUser.click_end.set()
     await callback_query.message.edit_text(
         'Приступаем)',

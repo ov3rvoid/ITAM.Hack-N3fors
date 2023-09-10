@@ -5,9 +5,9 @@ class TelegramUser(models.Model):
     username = models.CharField(max_length=256, null=True, verbose_name='Ник в тг')
     first_name = models.CharField(max_length=256, null=True, verbose_name='Имя в тг')
     second_name = models.CharField(max_length=256, null=True, verbose_name='Фамилия в тг')
-    age = models.IntegerField()
-    department = models.ForeignKey(to='Department', on_delete=models.CASCADE, null=True, blank=True)
-    course = models.IntegerField()
+    age = models.IntegerField(default=18)
+    department = models.TextField(null=True, blank=True)
+    course = models.IntegerField(default=1)
     description = models.TextField(blank=True)
     photo = models.ImageField(upload_to='photos/', null=True, blank=True)
 
