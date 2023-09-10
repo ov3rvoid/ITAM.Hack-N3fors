@@ -59,11 +59,11 @@ hello_kb.insert(reg_bt)
 
 reg_kb = InlineKeyboardMarkup(row_width=1)
 
-user_name = InlineKeyboardButton(text="Имя(*)", callback_data='name')
+user_name = InlineKeyboardButton(text="Имя", callback_data='name')
 reg_kb.insert(user_name)
 
 
-user_age = InlineKeyboardButton(text="Возраст(*)", callback_data="age")
+user_age = InlineKeyboardButton(text="Возраст", callback_data="age")
 reg_kb.insert(user_age)
 
 
@@ -71,8 +71,11 @@ user_department = InlineKeyboardButton(
     text="Факультет(*)", callback_data="department")
 reg_kb.insert(user_department)
 
-user_course = InlineKeyboardButton(text="Курс(*)", callback_data="course")
+user_course = InlineKeyboardButton(text="Курс", callback_data="course")
 reg_kb.insert(user_course)
+
+user_hobby = InlineKeyboardButton(text="Хобби", callback_data="hobby")
+reg_kb.insert(user_hobby)
 
 # ---------------
 

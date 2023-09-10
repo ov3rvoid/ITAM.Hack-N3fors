@@ -13,7 +13,6 @@ class CreateTelegramUser(TelegramUserBaseModel, generics.CreateAPIView):
 class ChangeTelegramUser(TelegramUserBaseModel, generics.RetrieveUpdateAPIView):
     lookup_field='external_id'
     
-
 class GetTelegramUser(TelegramUserBaseModel, generics.RetrieveAPIView):
     lookup_field='external_id'
 

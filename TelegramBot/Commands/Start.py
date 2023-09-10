@@ -31,7 +31,7 @@ async def start(message: types.Message, state: FSMContext):
     )
 
 
-@dp.callback_query_handler(lambda c: c.data == 'button1')
+@dp.callback_query_handler(lambda c: c.data == 'button1', state='*')
 async def choosing_action(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text(
@@ -40,7 +40,7 @@ async def choosing_action(callback_query: types.CallbackQuery):
     )
 
 
-@dp.callback_query_handler(lambda c: c.data == 'name')
+@dp.callback_query_handler(lambda c: c.data == 'name', state='*')
 async def choosing_action(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text(
@@ -49,7 +49,7 @@ async def choosing_action(callback_query: types.CallbackQuery):
     await FSMUser.typing_name.set()
 
 
-@dp.callback_query_handler(lambda c: c.data == 'age')
+@dp.callback_query_handler(lambda c: c.data == 'age', state='*')
 async def choosing_action(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text(
@@ -58,50 +58,57 @@ async def choosing_action(callback_query: types.CallbackQuery):
     await FSMUser.typing_age.set()
 
 
-@dp.callback_query_handler(lambda c: c.data == 'department')
+@dp.callback_query_handler(lambda c: c.data == 'department', state='*')
 async def choosing_action(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text(
-        'С какого ты факультета?(выбери)',
+        'С какого ты факультета?(Выбери)',
         reply_markup=department_kb
     )
-    await FSMUser.typing_department.set()   
+    await FSMUser.typing_department.set()
 
 
-@dp.callback_query_handler(lambda c: c.data == 'course')
+@dp.callback_query_handler(lambda c: c.data == 'course', state='*')
 async def choosing_action(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await callback_query.message.edit_text(
-        'Какой курc?(выбери)',
+        'Какой курc?(Выбери)',
         reply_markup=course_kb
     )
     await FSMUser.typing_course.set()
 
 
-# @dp.callback_query_handler(state=FSMUser.typing_department)
-# async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
-#     department = call.data
-#     print(call.data)
-#     async with state.proxy() as data:
-#         data['department'] = department
-#     await bot.send_message(
-#         call.from_user.id,
-#         f"Факультет {department} записан",
-#         reply_markup=reg_kb
-#     )
+@dp.callback_query_handler(lambda c: c.data == 'hobby', state='*')
+async def choosing_action(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    await callback_query.message.edit_text(
+        'Чем ты занимашься в свободное время?✏️',
+    )
+    await FSMUser.typing_hobby.set()
 
 
-@dp.callback_query_handle(state=FSMUser.typing_age)
-async def typing_name(call: types.CallbackQuery, state: FSMContext):
-    age = call.data
+@dp.message_handler(state=FSMUser.typing_name)
+async def choosing_name(message: types.Message, state: FSMContext):
+    name = message.text
+    async with state.proxy() as data:
+        data['name'] = name
+    await bot.send_message(
+        message.from_user.id,
+        f"Имя {name} записано",
+        reply_markup=reg_kb
+    )
+
+
+@dp.message_handler(state=FSMUser.typing_age)
+async def choosing_age(message: types.Message, state: FSMContext):
+    age = message.text
     async with state.proxy() as data:
         data['age'] = age
     await bot.send_message(
         message.from_user.id,
-        f"Едем дальше!\n\nПриятно познакомится, {data['data'][0]}💟\nТебе {age} лет",
+        f"{age} - возраст записан",
         reply_markup=reg_kb
     )
-    await FSMUser.choosing_action_with_profile.set()
 
 
 @dp.callback_query_handler(state=FSMUser.typing_department)
@@ -114,6 +121,31 @@ async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
         f"Факультет {department} записан",
         reply_markup=reg_kb
     )
+
+
+@dp.callback_query_handler(state=FSMUser.typing_course)
+async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
+    course = call.data
+    async with state.proxy() as data:
+        data['course'] = course
+    await bot.send_message(
+        call.from_user.id,
+        f"{course} курс",
+        reply_markup=reg_kb
+    )
+
+
+@dp.message_handler(state=FSMUser.typing_hobby)
+async def choosing_dep(message: types.Message, state: FSMContext):
+    hobby = message.text
+    async with state.proxy() as data:
+        data['hobby'] = hobby.split(',')
+    await bot.send_message(
+        message.from_user.id,
+        f"Прекрасное хобби",
+        reply_markup=reg_kb
+    )
+
 
 # @dp.message_handler()
 # async def echo_msg(message: types.Message):
