@@ -51,13 +51,12 @@ def get_user_course():
 
 hello_kb = InlineKeyboardMarkup(row_width=1)
 
-reg_bt = InlineKeyboardButton(
-    text="Зарегистрироваться", callback_data="button1")
+reg_bt = InlineKeyboardButton(text="Зарегистрироваться", callback_data="button1")
 hello_kb.insert(reg_bt)
 
 # ---------------
 
-reg_kb = InlineKeyboardMarkup(row_width=1)
+reg_kb = InlineKeyboardMarkup(row_width=2)
 
 user_name = InlineKeyboardButton(text="Имя", callback_data='name')
 reg_kb.insert(user_name)
@@ -67,8 +66,7 @@ user_age = InlineKeyboardButton(text="Возраст", callback_data="age")
 reg_kb.insert(user_age)
 
 
-user_department = InlineKeyboardButton(
-    text="Факультет(*)", callback_data="department")
+user_department = InlineKeyboardButton(text="Факультет(*)", callback_data="department")
 reg_kb.insert(user_department)
 
 user_course = InlineKeyboardButton(text="Курс", callback_data="course")
@@ -76,6 +74,9 @@ reg_kb.insert(user_course)
 
 user_hobby = InlineKeyboardButton(text="Хобби", callback_data="hobby")
 reg_kb.insert(user_hobby)
+
+end_reg = InlineKeyboardButton(text="Я всё заполнил", callback_data="end")
+reg_kb.add(end_reg)
 
 # ---------------
 

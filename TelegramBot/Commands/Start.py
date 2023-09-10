@@ -17,7 +17,7 @@ async def start(message: types.Message, state: FSMContext):
         )
 
 
-@dp.message_handler(commands=['start_'], state='*')
+@dp.message_handler(commands=['start'], state='*')
 async def start(message: types.Message, state: FSMContext):
     _state = await state.get_state()
     if _state == 'None':
@@ -86,6 +86,14 @@ async def choosing_action(callback_query: types.CallbackQuery):
     )
     await FSMUser.typing_hobby.set()
 
+
+@dp.callback_query_handler(lambda c: c.data == 'end', state='*')
+async def choosing_action(callback_query: types.CallbackQuery):
+    TelegramUserService.UpdateTelegramUsers(callback_query.id)
+    await FSMUser.click_end.set()
+    
+
+#------------- 
 
 @dp.message_handler(state=FSMUser.typing_name)
 async def choosing_name(message: types.Message, state: FSMContext):

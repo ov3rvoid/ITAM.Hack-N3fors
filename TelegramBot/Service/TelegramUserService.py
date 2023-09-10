@@ -13,5 +13,10 @@ class TelegramUserService:
             "Content-type": "application/json",
         },)
     def GetTelegramUser(external_id):
-        return requests.get(PROXY+'get_telegram_user/'+ str(external_id),).json()
+        return requests.get(PROXY+'get_telegram_user/'+ str(external_id)).json()
+    
+    def DeleteTelegramUser(external_id):
+        data = requests.get(PROXY+'get_telegram_user/'+str(external_id)).json()
 
+    def UpdateTelegramUsers(external_id):
+        requests.patch(PROXY+'change_telegram_user/'+str(external_id)).json()
