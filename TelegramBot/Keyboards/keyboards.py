@@ -58,14 +58,14 @@ hello_kb.insert(reg_bt)
 
 reg_kb = InlineKeyboardMarkup(row_width=2)
 
-user_photo = InlineKeyboardButton(text="Аватар", callback_data="photo")
-reg_kb.insert(user_photo)
-
-user_name = InlineKeyboardButton(text="Имя", callback_data='name')
+user_name = InlineKeyboardButton(text="Имя(⚠️)", callback_data='name')
 reg_kb.insert(user_name)
 
-user_gender = InlineKeyboardButton(text="Пол", callback_data='gender')
+user_gender = InlineKeyboardButton(text="Пол(⚠️)", callback_data='gender')
 reg_kb.insert(user_gender)
+
+user_photo = InlineKeyboardButton(text="Аватар", callback_data="photo")
+reg_kb.insert(user_photo)
 
 user_age = InlineKeyboardButton(text="Возраст", callback_data="age")
 reg_kb.insert(user_age)
@@ -102,7 +102,7 @@ for cr in course_list:
 
 done_kb = InlineKeyboardMarkup(row_width=1)
 
-done_btn = InlineKeyboardButton(text="Давай найдем тебе собеседника!", callback_data="button2")
+done_btn = InlineKeyboardButton(text="Внезапмный мэтч, флэш мне в ...", callback_data="button2")
 done_kb.insert(done_btn)
 
 # -------------

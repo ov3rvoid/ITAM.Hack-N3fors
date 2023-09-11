@@ -162,11 +162,21 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
     async with state.proxy() as data:
         TelegramUserService.ChangeTelegramUsers(
             callback_query.from_user.id, data)
-    await bot.send_message(
-        callback_query.from_user.id,
-        'Всё готово🥳',
-        reply_markup=done_kb
-    )
+        if data['department'] == '' or int(data['age']) == 0 or data['gender'] == '' or data['course'] == '' or data['description'] == '':
+            if data['photo'] == None:
+                await callback_query.message.edit_text(
+                    '⚠️Заполните все поля⚠️',
+                    reply_markup=reg_kb)
+            else:
+                await callback_query.message.edit_caption(
+                    '⚠️Заполните все поля⚠️',
+                    reply_markup=reg_kb)
+        else:
+            await bot.send_message(
+                callback_query.from_user.id,
+                'Всё готово🥳',
+                reply_markup=done_kb
+            )
     await FSMUser.click_end.set()
 
 # done
