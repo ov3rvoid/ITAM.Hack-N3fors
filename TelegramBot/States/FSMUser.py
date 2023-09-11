@@ -14,5 +14,5 @@ class FSMUser(StatesGroup):
     click_end = State()
     click_reg = State()
     click_done = State()
-
+    typing_photo = State()
 

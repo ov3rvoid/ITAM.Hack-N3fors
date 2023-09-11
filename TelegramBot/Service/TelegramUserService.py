@@ -3,7 +3,7 @@ from Config import PROXY
 import json
 
 class TelegramUserService:
-    def CreateTelegramUser(external_id, username, first_name, second_name):
+    def CreateTelegramUser(external_id, username, first_name):
         requests.post(PROXY+'create_telegram_user', data=json.dumps({
             "external_id": external_id,
             "username": username,
