@@ -30,9 +30,12 @@
 ```
 
 ----------
+```
 <h2 align="center">Контакты</h2>
 ```
+<h2 align="center">Преимущества бота</h2>
 @osyarik - Ярослав Осокин
 @ilysleep - Егор Гречин
 @fuckthisbvi - Сергей Журавлёв
+@igor_just_igor TL
 ```
