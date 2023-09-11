@@ -102,7 +102,7 @@ for cr in course_list:
 
 done_kb = InlineKeyboardMarkup(row_width=1)
 
-done_btn = InlineKeyboardButton(text="Внезапмный мэтч, флэш мне в ...", callback_data="button2")
+done_btn = InlineKeyboardButton(text="Внезапный мэтч, флэш мне в ...", callback_data="button2")
 done_kb.insert(done_btn)
 
 # -------------
