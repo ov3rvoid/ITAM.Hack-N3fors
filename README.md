@@ -7,12 +7,20 @@
 ```
 
 <h2 align="center">Что мы используем?</h2>
-1.Python
-    1.1 Django
-    1.2 DjangoRestFramwork
-    1.3 Aiogram
+
+<ol>
+<li>Python:
+<ol>
+   <li>Django</li>
+   <li>DjangoRestFramwork</li>
+   <li>Aiogram</li>
+</ol>
+</li>
+</ol>
 
 <h2 align="center">Преимущества бота</h2>
+
+```
 1. Мы используем фреймворк Django и DjangoRestFramwork, способная выдерживать большое колличество user'ов.
 2. Возможность расширения. Так как мы используем DjangoRestFramwork, значит просто для фантазии - весьма велик! 
    Если у вас есть желание работать с нашим сервером - у него есть свой API.
@@ -20,12 +28,12 @@
    А значит - наш бот общедоступный.
 4. Простота взаимодействия с bot'ом. Наш бот интуитивно понятен любому user'у. 
    А если уж и будет что-то не так - наш bot подскажет что не так ;)
+```
 
-```
-```
 <h2 align="center">Контакты</h2>
 ```
-<h4 align="left">@osyarik - Ярослав Осокин</h4>
-<h4 align="left">@ilysleep - Егор Гречин</h4>
-<h4 align="left">@fuckthisbvi - Сергей Журавлёв</h4>
-<h5 align="left">@igor_just_igor TL</h5>
+@osyarik - Ярослав Осокин
+@ilysleep - Егор Гречин
+@fuckthisbvi - Сергей Журавлёв
+@igor_just_igor TL
+```

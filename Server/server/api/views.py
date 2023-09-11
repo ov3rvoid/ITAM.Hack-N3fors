@@ -20,11 +20,9 @@ class FindSimUser(APIView):
     queryset = TelegramUser.objects.all()
     def get(self, request, *args, **kwargs):
         id = kwargs.get('external_id')
-
         user  = TelegramUser.objects.get(external_id=id)
         department = user.department
         users = TelegramUser.objects.filter(department=department).exclude(external_id=id)
-
         return Response(TelegramUserSerializer(choice(users)).data)
     
 class GetTelegramUser(TelegramUserBaseModel, generics.RetrieveAPIView):

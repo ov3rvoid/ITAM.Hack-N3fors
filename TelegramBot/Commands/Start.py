@@ -1,4 +1,6 @@
+from os import path
 import os.path
+from pathlib import Path
 from Config import dp, bot
 from Service.TelegramUserService import TelegramUserService
 from Keyboards.keyboards import *
@@ -174,10 +176,12 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     TelegramUserService.FindSimilarityUser(callback_query.from_user.id)
     data = TelegramUserService.GetSimilarTgUser(callback_query.from_user.id)
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{data['external_id']}.jpg"):
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(data["external_id"]) + ".jpg")}'
+    if os.path.exists(file_path):
         await bot.send_photo(
             callback_query.from_user.id,
-            photo=types.InputFile(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{data['external_id']}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data.get('first_name')}\n@{data.get('username')}\nПол - {'МЖ'[int(data.get('gender'))] if data.get('gender') != '' else ''}\nВозраст - {data.get('age') if int(data.get('age')) > 0 else ''}\nФакультет - {data.get('department')}\n{data.get('course') if data.get('course') != 0 else '?'} курс\nО себе: {data.get('description')}",
             reply_markup=done_kb
             )
@@ -195,13 +199,15 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
 @dp.message_handler(state=FSMUser.typing_photo, content_types=['photo'])
 async def choosing_photo(message: types.Message, state: FSMContext):
     photo = message.photo[-1]
-    await photo.download(destination_file=f'/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg', make_dirs=False)
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(message.from_user.id) + ".jpg")}'
+    await photo.download(destination_file=file_path, make_dirs=False)
     async with state.proxy() as data:
         data['photo'] = photo
         data['external_id'] = message.from_user.id
     await bot.send_photo(
         message.from_user.id,
-        photo=types.InputFile(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"),
+        photo=types.InputFile(file_path),
         caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
         reply_markup=reg_kb
     )
@@ -210,13 +216,14 @@ async def choosing_photo(message: types.Message, state: FSMContext):
 @dp.message_handler(state=FSMUser.typing_name)
 async def choosing_name(message: types.Message, state: FSMContext):
     name = message.text
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(message.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['name'] = name
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             message.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
@@ -231,13 +238,14 @@ async def choosing_name(message: types.Message, state: FSMContext):
 @dp.message_handler(state=FSMUser.typing_age)
 async def choosing_age(message: types.Message, state: FSMContext):
     age = message.text
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(message.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['age'] = age
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             message.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
@@ -252,13 +260,14 @@ async def choosing_age(message: types.Message, state: FSMContext):
 @dp.callback_query_handler(state=FSMUser.typing_department)
 async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
     department = call.data
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(call.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['department'] = department
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             call.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
@@ -273,13 +282,14 @@ async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(state=FSMUser.typing_gender)
 async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
     gender = call.data
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(call.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['gender'] = gender
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             call.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
@@ -294,13 +304,14 @@ async def choosing_dep(call: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(state=FSMUser.typing_course)
 async def choosing_course(call: types.CallbackQuery, state: FSMContext):
     course = call.data
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(call.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['course'] = course
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             call.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{call.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
@@ -315,13 +326,14 @@ async def choosing_course(call: types.CallbackQuery, state: FSMContext):
 @dp.message_handler(state=FSMUser.typing_description)
 async def choosing_description(message: types.Message, state: FSMContext):
     description = message.text
+    path = Path(__file__).parent.parent
+    file_path = f'{path.joinpath("media").joinpath(str(message.from_user.id) + ".jpg")}'
     async with state.proxy() as data:
         data['description'] = description
-    if os.path.exists(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"):
+    if os.path.exists(file_path):
         await bot.send_photo(
             message.from_user.id,
-            photo=types.InputFile(
-                f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{message.from_user.id}.jpg"),
+            photo=types.InputFile(file_path),
             caption=f"Имя - {data['name']}\nПол - {'МЖ'[int(data['gender'])] if data['gender'] != '' else ''}\nВозраст - {data['age'] if int(data['age']) > 0 else ''}\nФакультет - {data['department']}\n{data['course'] if data['course'] != 0 else '?'} курс\nО себе: {data['description']}",
             reply_markup=reg_kb
         )
