@@ -24,7 +24,8 @@
 ```
 ```
 <h2 align="center">Контакты</h2>
-####@osyarik - Ярослав Осокин
-####@ilysleep - Егор Гречин
-####@fuckthisbvi - Сергей Журавлёв
-#####@igor_just_igor TL
+```
+<h4 align="left">@osyarik - Ярослав Осокин</h4>
+<h4 align="left">@ilysleep - Егор Гречин</h4>
+<h4 align="left">@fuckthisbvi - Сергей Журавлёв</h4>
+<h5 align="left">@igor_just_igor TL</h5>
