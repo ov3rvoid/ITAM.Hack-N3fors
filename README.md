@@ -28,4 +28,3 @@
 ####@ilysleep - Егор Гречин
 ####@fuckthisbvi - Сергей Журавлёв
 #####@igor_just_igor TL
-```
