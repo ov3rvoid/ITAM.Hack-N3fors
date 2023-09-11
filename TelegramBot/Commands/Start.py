@@ -174,12 +174,17 @@ async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext
 async def choosing_action(callback_query: types.CallbackQuery, state: FSMContext):
     TelegramUserService.FindSimilarityUser(callback_query.from_user.id)
     data = TelegramUserService.GetSimilarTgUser(callback_query.from_user.id)
-    await bot.send_photo(
+    await bot.send_message(
         callback_query.from_user.id,
-        photo=types.InputFile(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{data['external_id']}.jpg"),
-        caption=f"Имя - {data.get('first_name')}\n@{data.get('username')}\nПол - {'МЖ'[int(data.get('gender'))] if data.get('gender') != '' else ''}\nВозраст - {data.get('age') if int(data.get('age')) > 0 else ''}\nФакультет - {data.get('department')}\n{data.get('course') if data.get('course') != 0 else '?'} курс\nО себе: {data.get('description')}",
+        f"Имя - {data.get('first_name')}\n@{data.get('username')}\nПол - {'МЖ'[int(data.get('gender'))] if data.get('gender') != '' else ''}\nВозраст - {data.get('age') if int(data.get('age')) > 0 else ''}\nФакультет - {data.get('department')}\n{data.get('course') if data.get('course') != 0 else '?'} курс\nО себе: {data.get('description')}",
         reply_markup=done_kb
+
     )
+    # await bot.send_photo(
+    #     callback_query.from_user.id,
+    #     photo=types.InputFile(f"/Users/worthless/Documents/misos_prog/ITAM.Hack-N3fors/TelegramBot/media/{data['external_id']}.jpg"),
+    #     caption=
+    # )
     await FSMUser.click_done.set()
 
 # -------------
